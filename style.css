@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(180deg, rgba(9, 9, 9, 0.72), rgba(17, 24, 39, 0.78)),
+        url("foto1.JPG") center/cover no-repeat;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.back-home {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    color: #d9487b;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.back-home.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.back-home:hover {
+    transform: scale(1.08);
+}
+
+.back-home span {
+    transform: translateX(-1px);
+}
+
+.hero {
+    text-align: center;
+    width: min(90%, 700px);
+    padding: 40px 30px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+    transition: all 0.6s ease;
+    z-index: 2;
+}
+
+.hero.is-hidden {
+    opacity: 0;
+    transform: translateY(-25px) scale(0.96);
+    pointer-events: none;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.3rem);
+    margin-bottom: 25px;
+}
+
+.hero p {
+    font-size: 24px;
+    color: #cfcfcf;
+    margin-bottom: 45px;
+    line-height: 1.5;
+}
+
+button {
+    background: oklch(38.61% 0.24064 266.239);
+    color: white;
+    border: none;
+    padding: 18px 45px;
+    border-radius: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+.letter-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+    pointer-events: none;
+    transition: all 0.7s ease;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.letter-panel.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.sparkles-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.sparkle,
+.heart {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    animation: floatUp 1.4s ease-out forwards;
+}
+
+.sparkle {
+    width: 10px;
+    height: 10px;
+    background: #fff7b2;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(255, 247, 178, 1);
+}
+
+.heart {
+    font-size: 18px;
+    color: #ff6fa8;
+    text-shadow: 0 0 10px rgba(255, 111, 168, 0.8);
+}
+
+.letter-paper {
+    width: min(680px, 100%);
+    background: #fdf7ea;
+    color: #3b2f22;
+    padding: 38px 34px;
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    font-family: "Courier New", Courier, monospace;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+}
+
+.letter-paper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+}
+
+.letter-date {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.letter-line {
+    margin-bottom: 12px;
+}
+
+.letter-sign {
+    margin-top: 24px;
+    font-weight: bold;
+}
+
+.typing-text {
+    white-space: pre-wrap;
+    min-height: 1.4em;
+}
+
+.cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: #7a5a3a;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.35);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-170px) scale(1.25);
+    }
+}
+
+@media (max-width: 700px) {
+    .letter-paper {
+        padding: 28px 20px;
+    }
+
+    .hero p {
+        font-size: 20px;
+    }
+}
+
+
