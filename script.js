@@ -27,6 +27,7 @@ const todayYear = today.getFullYear();
 let currentViewDate = new Date(todayYear, todayMonth, 1);
 let selectedDate = new Date(todayYear, todayMonth, todayDay);
 let showOnlyWithEntries = false;
+let memoriesLoaded = false;
 const notesByDay = {};
 const photosByDay = {};
 
@@ -34,7 +35,34 @@ function getDateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
-function loadStoredData() {
+async function loadStoredData() {
+    if (memoriesLoaded) return;
+
+    try {
+        const response = await fetch("/api/memories", { cache: "no-store" });
+        if (response.ok) {
+            const parsed = await response.json();
+            if (parsed.notes) {
+                Object.entries(parsed.notes).forEach(([key, value]) => {
+                    if (typeof value === "string" && key) {
+                        notesByDay[key] = value;
+                    }
+                });
+            }
+            if (parsed.photos) {
+                Object.entries(parsed.photos).forEach(([key, value]) => {
+                    if (typeof value === "string" && key) {
+                        photosByDay[key] = value;
+                    }
+                });
+            }
+            memoriesLoaded = true;
+            return;
+        }
+    } catch (error) {
+        console.warn("No se pudieron cargar los recuerdos del servidor.", error);
+    }
+
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return;
@@ -55,15 +83,33 @@ function loadStoredData() {
             });
         }
     } catch (error) {
-        console.warn("No se pudieron cargar los recuerdos.", error);
+        console.warn("No se pudieron cargar los recuerdos locales.", error);
     }
+
+    memoriesLoaded = true;
 }
 
-function saveStoredData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+async function saveStoredData() {
+    const payload = {
         notes: notesByDay,
         photos: photosByDay
-    }));
+    };
+
+    try {
+        await fetch("/api/memories", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+    } catch (error) {
+        console.warn("No se pudieron sincronizar los recuerdos con el servidor.", error);
+    }
+
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch (error) {
+        console.warn("No se pudieron guardar los recuerdos localmente.", error);
+    }
 }
 
 function capitalize(text) {
@@ -177,8 +223,15 @@ function showCalendarPanel() {
     calendarPanel.setAttribute("aria-hidden", "false");
     backHomeButton.classList.add("show");
     nextPageButton.classList.remove("show");
-    renderCalendar();
-    updateDetails(selectedDate);
+    if (!memoriesLoaded) {
+        loadStoredData().then(() => {
+            renderCalendar();
+            updateDetails(selectedDate);
+        });
+    } else {
+        renderCalendar();
+        updateDetails(selectedDate);
+    }
 }
 
 openLetterButton.addEventListener("click", () => {
@@ -259,7 +312,7 @@ function renderCalendar() {
     cells.forEach((cell) => calendarGrid.appendChild(cell));
 }
 
-saveNoteButton.addEventListener("click", () => {
+saveNoteButton.addEventListener("click", async () => {
     if (!selectedDate) {
         savedNote.textContent = "Primero elige un día.";
         return;
@@ -276,7 +329,7 @@ saveNoteButton.addEventListener("click", () => {
         savedNote.textContent = "Nota vacía guardada.";
     }
 
-    saveStoredData();
+    await saveStoredData();
     renderCalendar();
 });
 
@@ -290,13 +343,13 @@ photoInput.addEventListener("change", (event) => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
         const key = getDateKey(selectedDate);
         photosByDay[key] = reader.result;
         photoPreview.src = reader.result;
         photoPreview.style.display = "block";
         savedNote.textContent = "Foto guardada para este día.";
-        saveStoredData();
+        await saveStoredData();
         renderCalendar();
     };
     reader.readAsDataURL(file);
