@@ -1,4 +1,3 @@
-const button = document.getElementById("enterButton");
 const hero = document.getElementById("hero");
 const galleryPanel = document.getElementById("galleryPanel");
 const calendarPanel = document.getElementById("calendarPanel");
@@ -182,14 +181,6 @@ function showCalendarPanel() {
     updateDetails(selectedDate);
 }
 
-button.addEventListener("click", () => {
-    alert("Welcome, Tonypu 🧸");
-
-    setTimeout(() => {
-        showLetterPanel();
-    }, 300);
-});
-
 openLetterButton.addEventListener("click", () => {
     showLetterPanel();
 });
@@ -269,7 +260,7 @@ function renderCalendar() {
 }
 
 saveNoteButton.addEventListener("click", () => {
-    if (selectedDay === null) {
+    if (!selectedDate) {
         savedNote.textContent = "Primero elige un día.";
         return;
     }
@@ -290,7 +281,7 @@ saveNoteButton.addEventListener("click", () => {
 });
 
 photoInput.addEventListener("change", (event) => {
-    if (selectedDay === null) {
+    if (!selectedDate) {
         savedNote.textContent = "Primero elige un día.";
         return;
     }

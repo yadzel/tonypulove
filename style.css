@@ -409,6 +409,13 @@ button:hover {
     color: white;
 }
 
+.day-cell.active::before {
+    content: "💞";
+    display: block;
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+}
+
 .calendar-details {
     display: flex;
     flex-direction: column;
