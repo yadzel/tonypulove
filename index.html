@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonypu 🤍</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button class="back-home" id="backHomeButton" aria-label="Volver a la página principal" title="Volver a la página principal">
+        <span>♡</span>
+    </button>
+
+    <section class="hero" id="hero">
+        <h1>Hola Amor Mío</h1>
+        <p>Hice esta página solo para nosotros.</p>
+        <button id="enterButton">Enter</button>
+    </section>
+
+    <section class="letter-panel" id="galleryPanel" aria-hidden="true">
+        <div class="sparkles-layer" id="sparklesLayer" aria-hidden="true"></div>
+        <div class="mailbox-frame">
+            <div class="mailbox-header">
+                <h2>Buzón de Cartas 💌</h2>
+                <p>Todo lo que siento por ti en palabras.</p>
+            </div>
+            <div class="letter-paper">
+                <p class="letter-date typing-text" data-text="12 de julio, 2026"></p>
+                <p class="letter-line typing-text" data-text="Querido Tonypu,"></p>
+                <p class="letter-line typing-text" data-text="Quiero que sepas que estoy agradecido por todo lo que hemos logrado juntos. Sé que nunca seremos perfectos, pero quiero que sigamos creciendo juntos."></p>
+                <p class="letter-line typing-text" data-text="He sido testigo de todo lo que has mejorado y de la persona en la que te has convertido. Estoy muy orgulloso de ti."></p>
+                <p class="letter-line typing-text" data-text="Gracias por existir y por llenar de amor mis días, porque sé que me amas aunque no sea en el mismo lenguaje. Sé que seguiremos mejorando juntos."></p>
+                <p class="letter-line typing-text" data-text="Siempre voy a cuidar este sentimiento tan bonito que compartimos. Por eso, en esta página dedicada solo para ti, encontrarás cosas bonitas sobre nosotros solo para que siempre me lleves contigo."></p>
+                <p class="letter-sign typing-text" data-text="Con todo mi amor,"></p>
+                <p class="letter-sign typing-text" data-text="Yadzel Adrián"></p>
+            </div>
+        </div>
+        <button class="next-page-btn" id="nextPageButton" aria-label="Siguiente" title="Siguiente">
+            <span>→</span>
+        </button>
+    </section>
+
+    <section class="calendar-panel" id="calendarPanel" aria-hidden="true">
+        <div class="calendar-card">
+            <div class="calendar-header">
+                <h2>Agenda de Citas 📅</h2>
+                <p>Selecciona un día y guarda un recuerdo, lugar o momento especial.</p>
+            </div>
+            <div class="calendar-toolbar">
+                <button class="calendar-nav-btn" id="prevMonthButton" aria-label="Mes anterior">←</button>
+                <h3 id="monthLabel">Mes</h3>
+                <button class="calendar-nav-btn" id="nextMonthButton" aria-label="Mes siguiente">→</button>
+            </div>
+            <button class="filter-toggle" id="filterEntriesButton">Ver días con citas</button>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-details">
+                <h3 id="selectedDateLabel">Selecciona un día</h3>
+                <textarea id="noteInput" placeholder="Escribe aquí el sitio, el recuerdo o una nota para este día..."></textarea>
+                <label class="upload-label" for="photoInput">Subir foto para este día</label>
+                <input type="file" id="photoInput" accept="image/*">
+                <button id="saveNoteButton">Guardar nota</button>
+                <div class="saved-note" id="savedNote"></div>
+                <img id="photoPreview" alt="Foto del día" class="photo-preview">
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
