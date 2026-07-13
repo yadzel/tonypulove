@@ -19,7 +19,11 @@
 
         <div class="home-nav" aria-label="Secciones rápidas">
             <button class="home-nav-btn" id="openLetterButton" aria-label="Ir al buzón de cartas">💌</button>
-            <button class="home-nav-btn" id="openCalendarButton" aria-label="Ir a la agenda de citas">📅</button>
+            <button class="home-nav-btn" id="openGameButton" aria-label="Ir al mini juego">💞</button>
+        </div>
+        <div class="countdown-card" id="countdownCard">
+            <h3>Llevamos juntos</h3>
+            <div class="countdown" id="countdown"></div>
         </div>
     </section>
 
@@ -46,28 +50,12 @@
         </button>
     </section>
 
-    <section class="calendar-panel" id="calendarPanel" aria-hidden="true">
-        <div class="calendar-card">
-            <div class="calendar-header">
-                <h2>Agenda de Citas 📅</h2>
-                <p>Selecciona un día y guarda un recuerdo, lugar o momento especial.</p>
-            </div>
-            <div class="calendar-toolbar">
-                <button class="calendar-nav-btn" id="prevMonthButton" aria-label="Mes anterior">←</button>
-                <h3 id="monthLabel">Mes</h3>
-                <button class="calendar-nav-btn" id="nextMonthButton" aria-label="Mes siguiente">→</button>
-            </div>
-            <button class="filter-toggle" id="filterEntriesButton">Ver días con citas</button>
-            <div class="calendar-grid" id="calendarGrid"></div>
-            <div class="calendar-details">
-                <h3 id="selectedDateLabel">Selecciona un día</h3>
-                <textarea id="noteInput" placeholder="Escribe aquí el sitio, el recuerdo o una nota para este día..."></textarea>
-                <label class="upload-label" for="photoInput">Subir foto para este día</label>
-                <input type="file" id="photoInput" accept="image/*">
-                <button id="saveNoteButton">Guardar nota</button>
-                <div class="saved-note" id="savedNote"></div>
-                <img id="photoPreview" alt="Foto del día" class="photo-preview">
-            </div>
+    <section class="game-panel" id="gamePanel" aria-hidden="true">
+        <div class="game-card">
+            <h2>Mini juego 💖</h2>
+            <p>Haz click en los corazones para hacerlos brillar.</p>
+            <div class="game-area" id="gameArea"></div>
+            <button class="back-to-home" id="backToHomeButton">Volver</button>
         </div>
     </section>
 

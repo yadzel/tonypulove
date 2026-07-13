@@ -106,6 +106,27 @@ body {
     transform: scale(1.06);
 }
 
+.countdown-card {
+    margin-top: 24px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+}
+
+.countdown-card h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #fff7f2;
+}
+
+.countdown {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: bold;
+    color: #ffe4ef;
+}
+
 button {
     background: oklch(38.61% 0.24064 266.239);
     color: white;
@@ -268,7 +289,7 @@ button:hover {
     transform: scale(1.05);
 }
 
-.calendar-panel {
+.game-panel {
     position: absolute;
     inset: 0;
     display: flex;
@@ -282,191 +303,63 @@ button:hover {
     z-index: 1;
 }
 
-.calendar-panel.show {
+.game-panel.show {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
     z-index: 2;
 }
 
-.calendar-card {
-    width: min(720px, 100%);
-    max-height: 84vh;
-    overflow-y: auto;
+.game-card {
+    width: min(620px, 100%);
     background: rgba(255, 255, 255, 0.95);
     color: #243047;
     border-radius: 22px;
     padding: 24px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    text-align: center;
 }
 
-.calendar-header {
-    margin-bottom: 16px;
+.game-card h2 {
+    margin-bottom: 8px;
 }
 
-.calendar-header h2 {
-    font-size: clamp(1.5rem, 2.1vw, 1.9rem);
-    margin-bottom: 6px;
-}
-
-.calendar-header p {
+.game-card p {
     color: #5d6b84;
-    line-height: 1.5;
-}
-
-.calendar-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-}
-
-.calendar-toolbar h3 {
-    color: #1e3a8a;
-    font-size: 1rem;
-    text-transform: capitalize;
-}
-
-.calendar-nav-btn,
-.filter-toggle {
-    border: none;
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 0.95rem;
-    cursor: pointer;
-}
-
-.calendar-nav-btn {
-    background: #e7f0ff;
-    color: #1e3a8a;
-}
-
-.filter-toggle {
-    background: #fdf2f8;
-    color: #be185d;
-    margin-bottom: 12px;
-}
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
     margin-bottom: 16px;
 }
 
-.day-name {
-    text-align: center;
-    font-weight: bold;
-    color: #4f6b8a;
-    font-size: 0.9rem;
+.game-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-.day-cell {
-    padding: 10px 0;
-    text-align: center;
-    border-radius: 10px;
-    background: #f3f6fb;
-    color: #31445d;
+.heart-piece {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.5rem;
+    background: #ffe4ef;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
-    position: relative;
 }
 
-.day-cell.empty {
-    background: transparent;
-    cursor: default;
-    box-shadow: none;
+.heart-piece:hover {
+    transform: scale(1.05);
 }
 
-.day-cell:hover {
-    transform: scale(1.03);
-}
-
-.day-cell.has-entry::after {
-    content: "•";
-    position: absolute;
-    right: 6px;
-    bottom: 4px;
-    color: #ec4899;
-    font-size: 1rem;
-}
-
-.day-cell.active {
-    background: #3b82f6;
+.heart-piece.active {
+    background: #ff6fa8;
     color: white;
-    font-weight: bold;
+    transform: scale(1.08);
 }
 
-.day-cell.today {
-    border: 2px solid #f59e0b;
-    background: #fff7e6;
-}
-
-.day-cell.today.active {
-    border-color: #3b82f6;
-    background: #3b82f6;
-    color: white;
-}
-
-.day-cell.active::before {
-    content: "💞";
-    display: block;
-    font-size: 0.7rem;
-    margin-bottom: 2px;
-}
-
-.calendar-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.calendar-details h3 {
-    color: #1e3a8a;
-    font-size: 1rem;
-}
-
-.calendar-details textarea {
-    resize: vertical;
-    min-height: 80px;
-    border: 1px solid #dbe3ee;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-family: inherit;
-}
-
-.upload-label {
-    font-size: 0.9rem;
-    color: #4b5563;
-}
-
-.calendar-details input[type="file"] {
-    font-size: 0.9rem;
-}
-
-.calendar-details button {
-    align-self: flex-start;
+.back-to-home {
     padding: 10px 16px;
     border-radius: 999px;
     font-size: 0.95rem;
-}
-
-.saved-note {
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: #eef6ff;
-    color: #1e3a8a;
-    min-height: 48px;
-}
-
-.photo-preview {
-    display: none;
-    width: 100%;
-    max-height: 220px;
-    object-fit: cover;
-    border-radius: 14px;
-    border: 1px solid #dbe3ee;
 }
 
 .typing-text {
