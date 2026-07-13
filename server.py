@@ -1,28 +1,55 @@
 import json
 import os
+import sqlite3
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
-DATA_FILE = os.path.join(os.path.dirname(__file__), "memories.json")
+DB_PATH = os.path.join(os.path.dirname(__file__), "memories.db")
 HOST = "0.0.0.0"
 PORT = 8000
 
 
-def load_data():
-    if not os.path.exists(DATA_FILE):
-        return {"notes": {}, "photos": {}}
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS memories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            key TEXT UNIQUE NOT NULL,
+            value TEXT NOT NULL
+        )
+    """)
+    conn.commit()
+    conn.close()
 
-    try:
-        with open(DATA_FILE, "r", encoding="utf-8") as fh:
-            return json.load(fh)
-    except (json.JSONDecodeError, OSError):
-        return {"notes": {}, "photos": {}}
+
+def load_data():
+    conn = sqlite3.connect(DB_PATH)
+    rows = conn.execute("SELECT key, value FROM memories").fetchall()
+    conn.close()
+
+    notes = {}
+    photos = {}
+    for key, value in rows:
+        if key.startswith("note:"):
+            notes[key[5:]] = value
+        elif key.startswith("photo:"):
+            photos[key[6:]] = value
+    return {"notes": notes, "photos": photos}
 
 
 def save_data(payload):
-    with open(DATA_FILE, "w", encoding="utf-8") as fh:
-        json.dump(payload, fh, ensure_ascii=False, indent=2)
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("DELETE FROM memories")
+
+    for key, value in payload.get("notes", {}).items():
+        conn.execute("INSERT INTO memories (key, value) VALUES (?, ?)", (f"note:{key}", value))
+
+    for key, value in payload.get("photos", {}).items():
+        conn.execute("INSERT INTO memories (key, value) VALUES (?, ?)", (f"photo:{key}", value))
+
+    conn.commit()
+    conn.close()
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -104,6 +131,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    init_db()
     server = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f"Serving on http://{HOST}:{PORT}")
     try:
