@@ -161,9 +161,11 @@ function typeText(element) {
 function showLetterPanel() {
     hero.classList.add("is-hidden");
     galleryPanel.classList.add("show");
-    calendarPanel.classList.remove("show");
+    gamePanel.classList.remove("show");
+    countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "false");
-    calendarPanel.setAttribute("aria-hidden", "true");
+    gamePanel.setAttribute("aria-hidden", "true");
+    countdownPanel.setAttribute("aria-hidden", "true");
     backHomeButton.classList.add("show");
     nextPageButton.classList.add("show");
     createSparkles();
