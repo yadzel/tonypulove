@@ -87,10 +87,8 @@ function showLetterPanel() {
 function showCountdownPanel() {
     hero.classList.add("is-hidden");
     galleryPanel.classList.remove("show");
-    gamePanel.classList.remove("show");
     countdownPanel.classList.add("show");
     galleryPanel.setAttribute("aria-hidden", "true");
-    gamePanel.setAttribute("aria-hidden", "true");
     countdownPanel.setAttribute("aria-hidden", "false");
     backHomeButton.classList.add("show");
     nextPageButton.classList.remove("show");
