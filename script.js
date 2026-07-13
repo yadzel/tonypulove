@@ -104,6 +104,7 @@ backHomeButton.addEventListener("click", () => {
     countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "true");
     countdownPanel.setAttribute("aria-hidden", "true");
+    backHomeButton.classList.remove("show");
     sparklesLayer.innerHTML = "";
 });
 
