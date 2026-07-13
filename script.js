@@ -3,11 +3,10 @@ const galleryPanel = document.getElementById("galleryPanel");
 const openLetterButton = document.getElementById("openLetterButton");
 const openCountdownButton = document.getElementById("openCountdownButton");
 const sparklesLayer = document.getElementById("sparklesLayer");
-const backHomeButton = document.getElementById("backHomeButton");
-const nextPageButton = document.getElementById("nextPageButton");
 const countdown = document.getElementById("countdown");
 const countdownPanel = document.getElementById("countdownPanel");
 const closeCountdownButton = document.getElementById("closeCountdownButton");
+const closeLetterButton = document.getElementById("closeLetterButton");
 
 const startDate = new Date("2024-01-23T00:00:00");
 
@@ -75,8 +74,6 @@ function showLetterPanel() {
     countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "false");
     countdownPanel.setAttribute("aria-hidden", "true");
-    backHomeButton.classList.add("show");
-    nextPageButton.classList.add("show");
     createSparkles();
 
     document.querySelectorAll(".typing-text").forEach((element, index) => {
@@ -90,8 +87,6 @@ function showCountdownPanel() {
     countdownPanel.classList.add("show");
     galleryPanel.setAttribute("aria-hidden", "true");
     countdownPanel.setAttribute("aria-hidden", "false");
-    backHomeButton.classList.add("show");
-    nextPageButton.classList.remove("show");
 }
 
 openLetterButton.addEventListener("click", () => {
@@ -102,14 +97,10 @@ openCountdownButton.addEventListener("click", () => {
     showCountdownPanel();
 });
 
-backHomeButton.addEventListener("click", () => {
+closeLetterButton.addEventListener("click", () => {
     hero.classList.remove("is-hidden");
     galleryPanel.classList.remove("show");
-    countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "true");
-    countdownPanel.setAttribute("aria-hidden", "true");
-    backHomeButton.classList.remove("show");
-    nextPageButton.classList.remove("show");
     sparklesLayer.innerHTML = "";
 });
 
@@ -117,6 +108,5 @@ closeCountdownButton.addEventListener("click", () => {
     hero.classList.remove("is-hidden");
     countdownPanel.classList.remove("show");
     countdownPanel.setAttribute("aria-hidden", "true");
-    backHomeButton.classList.remove("show");
 });
 
