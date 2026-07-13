@@ -20,10 +20,7 @@
         <div class="home-nav" aria-label="Secciones rápidas">
             <button class="home-nav-btn" id="openLetterButton" aria-label="Ir al buzón de cartas">💌</button>
             <button class="home-nav-btn" id="openGameButton" aria-label="Ir al mini juego">💞</button>
-        </div>
-        <div class="countdown-card" id="countdownCard">
-            <h3>Llevamos juntos</h3>
-            <div class="countdown" id="countdown"></div>
+            <button class="home-nav-btn" id="openCountdownButton" aria-label="Abrir contador">🕯️</button>
         </div>
     </section>
 
@@ -53,9 +50,19 @@
     <section class="game-panel" id="gamePanel" aria-hidden="true">
         <div class="game-card">
             <h2>Mini juego 💖</h2>
-            <p>Haz click en los corazones para hacerlos brillar.</p>
-            <div class="game-area" id="gameArea"></div>
+            <p>Guía al osito por el laberinto hasta encontrar la jarrita de miel.</p>
+            <div class="maze-board" id="mazeBoard"></div>
+            <p class="game-status" id="gameStatus">Usa las flechas para moverte.</p>
             <button class="back-to-home" id="backToHomeButton">Volver</button>
+        </div>
+    </section>
+
+    <section class="countdown-panel" id="countdownPanel" aria-hidden="true">
+        <div class="countdown-card">
+            <h2>Contador de amor 🕯️</h2>
+            <p>Llevamos juntos desde el 23 de enero de 2024.</p>
+            <div class="countdown" id="countdown"></div>
+            <button class="back-to-home" id="closeCountdownButton">Volver</button>
         </div>
     </section>
 

@@ -3,14 +3,30 @@ const galleryPanel = document.getElementById("galleryPanel");
 const gamePanel = document.getElementById("gamePanel");
 const openLetterButton = document.getElementById("openLetterButton");
 const openGameButton = document.getElementById("openGameButton");
+const openCountdownButton = document.getElementById("openCountdownButton");
 const sparklesLayer = document.getElementById("sparklesLayer");
 const backHomeButton = document.getElementById("backHomeButton");
 const nextPageButton = document.getElementById("nextPageButton");
 const countdown = document.getElementById("countdown");
-const gameArea = document.getElementById("gameArea");
+const mazeBoard = document.getElementById("mazeBoard");
+const gameStatus = document.getElementById("gameStatus");
 const backToHomeButton = document.getElementById("backToHomeButton");
+const countdownPanel = document.getElementById("countdownPanel");
+const closeCountdownButton = document.getElementById("closeCountdownButton");
 
 const startDate = new Date("2024-01-23T00:00:00");
+const maze = [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 1, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1]
+];
+let playerPosition = { x: 1, y: 1 };
+let honeyPosition = { x: 7, y: 5 };
+let direction = { x: 0, y: 0 };
 
 function updateCountdown() {
     const now = new Date();
@@ -23,19 +39,72 @@ function updateCountdown() {
     countdown.textContent = `${years} años, ${months} meses, ${days} días y ${hours} horas 💖`;
 }
 
-function createHearts() {
-    gameArea.innerHTML = "";
-    for (let i = 0; i < 12; i += 1) {
-        const button = document.createElement("button");
-        button.className = "heart-piece";
-        button.textContent = "💗";
-        button.addEventListener("click", () => {
-            button.classList.add("active");
-            button.textContent = "💞";
-        });
-        gameArea.appendChild(button);
+function renderMaze() {
+    mazeBoard.innerHTML = "";
+    for (let y = 0; y < maze.length; y += 1) {
+        for (let x = 0; x < maze[y].length; x += 1) {
+            const cell = document.createElement("div");
+            const isWall = maze[y][x] === 1;
+            const isPlayer = playerPosition.x === x && playerPosition.y === y;
+            const isHoney = honeyPosition.x === x && honeyPosition.y === y;
+
+            cell.className = "maze-cell";
+            if (isWall) {
+                cell.classList.add("wall");
+            } else if (isPlayer) {
+                cell.classList.add("teddy");
+                cell.textContent = "🧸";
+            } else if (isHoney) {
+                cell.classList.add("honey");
+                cell.textContent = "🍯";
+            }
+
+            mazeBoard.appendChild(cell);
+        }
     }
 }
+
+function movePlayer(dx, dy) {
+    const nextX = playerPosition.x + dx;
+    const nextY = playerPosition.y + dy;
+
+    if (nextX < 0 || nextY < 0 || nextY >= maze.length || nextX >= maze[0].length) {
+        return;
+    }
+
+    if (maze[nextY][nextX] === 1) {
+        return;
+    }
+
+    playerPosition = { x: nextX, y: nextY };
+    if (playerPosition.x === honeyPosition.x && playerPosition.y === honeyPosition.y) {
+        gameStatus.textContent = "¡Lo lograste! El osito encontró la miel 💛";
+        return;
+    }
+
+    gameStatus.textContent = "Sigue así, casi estás ahí 💞";
+    renderMaze();
+}
+
+function startGame() {
+    playerPosition = { x: 1, y: 1 };
+    honeyPosition = { x: 7, y: 5 };
+    gameStatus.textContent = "Usa las flechas para moverte.";
+    renderMaze();
+}
+
+window.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (key === "ArrowUp") {
+        movePlayer(0, -1);
+    } else if (key === "ArrowDown") {
+        movePlayer(0, 1);
+    } else if (key === "ArrowLeft") {
+        movePlayer(-1, 0);
+    } else if (key === "ArrowRight") {
+        movePlayer(1, 0);
+    }
+});
 
 function getDateKey(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -43,7 +112,7 @@ function getDateKey(date) {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
-createHearts();
+startGame();
 
 function createSparkles() {
     sparklesLayer.innerHTML = "";
@@ -107,9 +176,23 @@ function showLetterPanel() {
 function showGamePanel() {
     hero.classList.add("is-hidden");
     galleryPanel.classList.remove("show");
+    countdownPanel.classList.remove("show");
     gamePanel.classList.add("show");
     galleryPanel.setAttribute("aria-hidden", "true");
+    countdownPanel.setAttribute("aria-hidden", "true");
     gamePanel.setAttribute("aria-hidden", "false");
+    backHomeButton.classList.add("show");
+    nextPageButton.classList.remove("show");
+}
+
+function showCountdownPanel() {
+    hero.classList.add("is-hidden");
+    galleryPanel.classList.remove("show");
+    gamePanel.classList.remove("show");
+    countdownPanel.classList.add("show");
+    galleryPanel.setAttribute("aria-hidden", "true");
+    gamePanel.setAttribute("aria-hidden", "true");
+    countdownPanel.setAttribute("aria-hidden", "false");
     backHomeButton.classList.add("show");
     nextPageButton.classList.remove("show");
 }
@@ -122,12 +205,18 @@ openGameButton.addEventListener("click", () => {
     showGamePanel();
 });
 
+openCountdownButton.addEventListener("click", () => {
+    showCountdownPanel();
+});
+
 backHomeButton.addEventListener("click", () => {
     hero.classList.remove("is-hidden");
     galleryPanel.classList.remove("show");
     gamePanel.classList.remove("show");
+    countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "true");
     gamePanel.setAttribute("aria-hidden", "true");
+    countdownPanel.setAttribute("aria-hidden", "true");
     backHomeButton.classList.remove("show");
     nextPageButton.classList.remove("show");
     sparklesLayer.innerHTML = "";
@@ -137,6 +226,13 @@ backToHomeButton.addEventListener("click", () => {
     hero.classList.remove("is-hidden");
     gamePanel.classList.remove("show");
     gamePanel.setAttribute("aria-hidden", "true");
+    backHomeButton.classList.remove("show");
+});
+
+closeCountdownButton.addEventListener("click", () => {
+    hero.classList.remove("is-hidden");
+    countdownPanel.classList.remove("show");
+    countdownPanel.setAttribute("aria-hidden", "true");
     backHomeButton.classList.remove("show");
 });
 
