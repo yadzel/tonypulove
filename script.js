@@ -74,6 +74,7 @@ function showLetterPanel() {
     countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "false");
     countdownPanel.setAttribute("aria-hidden", "true");
+    backHomeButton.classList.add("show");
     createSparkles();
 
     document.querySelectorAll(".typing-text").forEach((element, index) => {
