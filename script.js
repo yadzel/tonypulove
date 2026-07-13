@@ -99,7 +99,8 @@ async function saveStoredData() {
         await fetch("/api/memories", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            cache: "no-store"
         });
     } catch (error) {
         console.warn("No se pudieron sincronizar los recuerdos con el servidor.", error);

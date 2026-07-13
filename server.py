@@ -33,7 +33,8 @@ class Handler(BaseHTTPRequestHandler):
             payload = load_data()
             self.send_response(HTTPStatus.OK)
             self.send_header("Content-Type", "application/json")
-            self.send_header("Cache-Control", "no-store")
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
             self.end_headers()
             self.wfile.write(json.dumps(payload).encode("utf-8"))
             return
@@ -67,6 +68,8 @@ class Handler(BaseHTTPRequestHandler):
 
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", mime_type)
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
         self.end_headers()
         self.wfile.write(content)
 
