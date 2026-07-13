@@ -6,7 +6,7 @@ const sparklesLayer = document.getElementById("sparklesLayer");
 const countdown = document.getElementById("countdown");
 const countdownPanel = document.getElementById("countdownPanel");
 const closeCountdownButton = document.getElementById("closeCountdownButton");
-const closeLetterButton = document.getElementById("closeLetterButton");
+const backHomeButton = document.getElementById("backHomeButton");
 
 const startDate = new Date("2024-01-23T00:00:00");
 
@@ -97,10 +97,12 @@ openCountdownButton.addEventListener("click", () => {
     showCountdownPanel();
 });
 
-closeLetterButton.addEventListener("click", () => {
+backHomeButton.addEventListener("click", () => {
     hero.classList.remove("is-hidden");
     galleryPanel.classList.remove("show");
+    countdownPanel.classList.remove("show");
     galleryPanel.setAttribute("aria-hidden", "true");
+    countdownPanel.setAttribute("aria-hidden", "true");
     sparklesLayer.innerHTML = "";
 });
 
